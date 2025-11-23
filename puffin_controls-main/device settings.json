@@ -1,0 +1,149 @@
+[
+  {
+  "instrument": "Siglent SDS5104X",
+  "serial number": "SDS5XCAC3R0055",
+  "ip": "192.168.1.10",
+  "port": 5025,
+  "settings": {
+    "channels": {
+      "CH1": {
+        "vdiv": 5.0,
+        "offset": 0.0,
+        "on/off": "off",
+        "coupling": "DC",
+        "impedance": "1M",
+        "BW limit": "full",
+        "probe": "1X",
+        "unit": "V",
+        "invert": "off",
+        "trace": "visible"
+      },
+      "CH2": {
+        "vdiv": 0.05,
+        "offset": 0.0,
+        "on/off": "off",
+        "coupling": "DC",
+        "impedance": "1M",
+        "BW limit": "full",
+        "probe": "10X",
+        "unit": "V",
+        "invert": "off",
+        "trace": "visible"
+      },
+      "CH3": {
+        "vdiv": 2.0,
+        "offset": 0.0,
+        "on/off": "off",
+        "coupling": "DC",
+        "impedance": "1M",
+        "BW limit": "full",
+        "probe": "1X",
+        "unit": "V",
+        "invert": "off",
+        "trace": "visible"
+      },
+      "CH4": {
+        "vdiv": 10.0,
+        "offset": 0.0,
+        "on/off": "off",
+        "coupling": "DC",
+        "impedance": "1M",
+        "BW limit": "full",
+        "probe": "1X",
+        "unit": "V",
+        "invert": "off",
+        "trace": "visible"
+      }
+    },
+    "trigger": {
+      "source": "EX",
+      "slope": "RISing",
+      "mode": "SINGle"
+    },
+    "timescale": {
+      "horizontal_div": "1.00E-06",
+      "delay": "0"
+    }
+  }
+},
+  {
+  "instrument": "BNC Model 577 Pulse Generator",
+  "serial number": "37702",
+  "ip": "192.168.0.7",
+  "port": 5025,
+  "MAC address": "D4:AD:20:B5:45:0D",
+  "settings": {
+    "mode": "Single Shot",
+    "trigger": {
+      "status": "enabled",
+      "level": 4.00,
+      "edge": "rise"
+    },
+    "gate": {
+      "mode": "Pulse Inhibit",
+      "level": "4.00",
+      "active": "high"
+    },
+    "channels": {
+      "chA": {
+        "status": "enabled",
+        "amplitude": 5.00,
+        "delay": "0.00E+00",
+        "width": "1.00E-02",
+        "active": "high",
+        "reference channel": "T0"
+      },
+      "chB": {
+        "status": "enabled",
+        "amplitude": 5.00,
+        "delay": "3.00E-06",
+        "width": "1.00E-02",
+        "active": "high",
+        "reference channel": "A"
+      },
+      "chC": {
+        "status": "enabled",
+        "amplitude": 6.00,
+        "delay": "0.00E+00",
+        "width": "5.00E-01",
+        "active": "high",
+        "reference channel": "A"
+      },
+      "chD": {
+        "status": "disabled",
+        "amplitude": 5.00,
+        "delay": "0.00E+00",
+        "width": "1.00E-02",
+        "active": "high",
+        "reference channel": "A"
+      },
+      "chE": {
+        "status": "disabled",
+        "amplitude": 5.00,
+        "delay": "0.00E+00",
+        "width": "1.00E-02",
+        "active": "high",
+        "reference channel": "A"
+      },
+      "chF": {
+        "status": "disabled",
+        "amplitude": 5.00,
+        "delay": "0.00E+00",
+        "width": "1.00E-02",
+        "active": "high",
+        "reference channel": "A"
+      },
+      "chG": {
+        "status": "disabled",
+        "amplitude": 5.00,
+        "delay": "0.00E+00",
+        "width": "1.00E-02",
+        "active": "high",
+        "reference channel": "A"
+      }
+    }
+  }
+}
+]
+
+
