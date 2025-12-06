@@ -1,0 +1,447 @@
+{% macro render_scope_interface(index) %}
+<div class="scope-interface mt-3">
+    <!-- Connection Panel -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Connection - Scope {{ index }}</h5>
+                </div>
+                <div class="card-body">
+                    <!-- JSON Import/Export Panel -->
+                    <div class="mb-3">
+                        <label for="importConfigFile_{{ index }}" class="form-label">Import/Export Configuration (JSON)</label>
+                        <input type="file" class="form-control mb-2" id="importConfigFile_{{ index }}" name="file" accept="application/json">
+                        <div class="btn-group w-100 mb-2" role="group">
+                            <button type="button" id="setScopeFromJsonBtn_{{ index }}" class="btn btn-primary btn-sm">Load Scope Settings from JSON</button>
+                            <button type="button" id="writeScopeToJsonBtn_{{ index }}" class="btn btn-success btn-sm">Write Scope Settings to JSON</button>
+                        </div>
+                        <div id="importConfigStatus_{{ index }}" class="small text-muted"></div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-md-3">
+                            <label for="ipAddress_{{ index }}" class="form-label">IP Address</label>
+                            <input type="text" class="form-control" id="ipAddress_{{ index }}" value="192.168.1.{{ 10 + index - 1 }}">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="port_{{ index }}" class="form-label">Port</label>
+                            <input type="number" class="form-control" id="port_{{ index }}" value="5025">
+                        </div>
+                        <div class="col-md-3">
+                            <button id="connectBtn_{{ index }}" class="btn btn-success">Connect</button>
+                            <button id="disconnectBtn_{{ index }}" class="btn btn-danger" disabled>Disconnect</button>
+                        </div>
+                        <div class="col-md-3">
+                            <div id="connectionStatus_{{ index }}" class="badge bg-secondary">Disconnected</div>
+                            <div id="deviceId_{{ index }}" class="small text-muted mt-1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Configuration Panel -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Oscilloscope Configuration</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Channel Settings -->
+                    <div class="mb-3">
+                        <h6>Channel Settings</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Channel</th>
+                                        <th>V/div</th>
+                                        <th>Offset (V)</th>
+                                        <th>On/Off</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>CH1</strong></td>
+                                        <td><input type="number" class="form-control form-control-sm" id="ch1_vdiv_{{ index }}" value="1.0" step="0.1" min="0.001"></td>
+                                        <td><input type="number" class="form-control form-control-sm" id="ch1_offset_{{ index }}" value="0.0" step="0.1"></td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="ch1_state_{{ index }}" checked>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>CH2</strong></td>
+                                        <td><input type="number" class="form-control form-control-sm" id="ch2_vdiv_{{ index }}" value="1.0" step="0.1" min="0.001"></td>
+                                        <td><input type="number" class="form-control form-control-sm" id="ch2_offset_{{ index }}" value="0.0" step="0.1"></td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="ch2_state_{{ index }}" checked>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>CH3</strong></td>
+                                        <td><input type="number" class="form-control form-control-sm" id="ch3_vdiv_{{ index }}" value="1.0" step="0.1" min="0.001"></td>
+                                        <td><input type="number" class="form-control form-control-sm" id="ch3_offset_{{ index }}" value="0.0" step="0.1"></td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="ch3_state_{{ index }}" checked>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>CH4</strong></td>
+                                        <td><input type="number" class="form-control form-control-sm" id="ch4_vdiv_{{ index }}" value="1.0" step="0.1" min="0.001"></td>
+                                        <td><input type="number" class="form-control form-control-sm" id="ch4_offset_{{ index }}" value="0.0" step="0.1"></td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="ch4_state_{{ index }}" checked>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Timebase Settings -->
+                    <div class="mb-3">
+                        <h6>Timebase Settings</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="timeScale_{{ index }}" class="form-label">Time Scale (s/div)</label>
+                                <input type="number" class="form-control" id="timeScale_{{ index }}" value="0.000001" step="0.000001">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Trigger Settings -->
+                    <div class="mb-3">
+                        <h6>Trigger Settings</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="triggerType_{{ index }}" class="form-label">Trigger Type</label>
+                                <select class="form-select" id="triggerType_{{ index }}">
+                                    <option value="EDGE">EDGE</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="triggerSource_{{ index }}" class="form-label">Trigger Source</label>
+                                <select class="form-select" id="triggerSource_{{ index }}">
+                                    <option value="C1">C1</option>
+                                    <option value="C2">C2</option>
+                                    <option value="C3">C3</option>
+                                    <option value="C4">C4</option>
+                                    <option value="EX" selected>EX (External)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <label class="form-label">Trigger Slope</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="triggerSlope_{{ index }}" id="slopeRising_{{ index }}" value="RISing" checked>
+                                    <label class="form-check-label" for="slopeRising_{{ index }}">Rising</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="triggerSlope_{{ index }}" id="slopeFalling_{{ index }}" value="FALLing">
+                                    <label class="form-check-label" for="slopeFalling_{{ index }}">Falling</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="triggerLevel_{{ index }}" class="form-label">Trigger Level (V)</label>
+                                <input type="number" class="form-control" id="triggerLevel_{{ index }}" value="0.5" step="0.1">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="triggerMode_{{ index }}" class="form-label">Trigger Mode</label>
+                                <select class="form-select" id="triggerMode_{{ index }}">
+                                    <option value="SINGLE" selected>SINGLE</option>
+                                    <option value="NORMAL">NORMAL</option>
+                                    <option value="AUTO">AUTO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="applySettingsBtn_{{ index }}" class="btn btn-primary" disabled>Apply Settings</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Arm Scope Panel -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Acquisition</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <button id="armBtn_{{ index }}" class="btn btn-success btn-lg" disabled>
+                            <i class="bi bi-crosshair"></i> Arm Scope
+                        </button>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div id="armStatus_{{ index }}" class="alert alert-secondary">
+                            <strong>Status:</strong> <span id="armStatusText_{{ index }}">Idle</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div id="armInfo_{{ index }}" class="small text-muted" style="display: none;">
+                            <div>Channels acquired: <span id="channelsAcquired_{{ index }}"></span></div>
+                            <div>CSV File: <span id="csvFileName_{{ index }}"></span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Plot Image Display -->
+                    <div class="mb-3">
+                        <div id="plotContainer_{{ index }}" style="display: none;">
+                            <h6>Waveform Plot</h6>
+                            <img id="plotImage_{{ index }}" src="" alt="Waveform Plot" class="img-fluid border">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUFFIN Control - Oscilloscope & Pulse Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center my-4">PUFFIN Control Interface</h1>
+                <p class="text-center text-muted">Siglent SDS5104X Oscilloscope & BNC Model 577 Pulse Generator</p>
+            </div>
+        </div>
+        
+        <!-- Global Connect/Disconnect All Buttons -->
+        <div class="row mb-3">
+            <div class="col-12 text-center">
+                <button id="connectAllBtn" class="btn btn-primary btn-lg me-2">
+                    <i class="bi bi-broadcast"></i> Connect All Scopes
+                </button>
+                <button id="disconnectAllBtn" class="btn btn-danger btn-lg">
+                    <i class="bi bi-x-circle"></i> Disconnect All Scopes
+                </button>
+            </div>
+        </div>
+        
+        <!-- BNC Model 577 Pulse Generator Panel (Global) -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>BNC Model 577 Pulse Generator</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- JSON Import/Export for DDG -->
+                        <div class="mb-3">
+                            <label for="importDDGFile" class="form-label">Import/Export DDG Configuration (JSON)</label>
+                            <input type="file" class="form-control mb-2" id="importDDGFile" name="file" accept="application/json">
+                            <div class="btn-group w-100 mb-2" role="group">
+                                <button type="button" id="setDDGFromJsonBtn" class="btn btn-primary btn-sm">Load DDG Settings from JSON</button>
+                                <button type="button" id="writeDDGToJsonBtn" class="btn btn-success btn-sm">Write DDG Settings to JSON</button>
+                            </div>
+                            <div id="importDDGStatus" class="small text-muted"></div>
+                        </div>
+                        
+                        <!-- Pulse Generator Settings -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Mode</label>
+                                <input type="text" class="form-control" id="ddg_mode" value="Single Shot" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Trigger Status</label>
+                                <input type="text" class="form-control" id="ddg_trigger_status" value="enabled" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Trigger Level (V)</label>
+                                <input type="number" class="form-control" id="ddg_trigger_level" value="4.0" step="0.1">
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Trigger Edge</label>
+                                <input type="text" class="form-control" id="ddg_trigger_edge" value="rise" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Gate Mode</label>
+                                <input type="text" class="form-control" id="ddg_gate_mode" value="Pulse Inhibit" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Gate Level (V)</label>
+                                <input type="text" class="form-control" id="ddg_gate_level" value="4.00" readonly>
+                            </div>
+                        </div>
+                        
+                        <!-- Channel Settings Table -->
+                        <div class="mb-3">
+                            <h6>Channel Settings</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Channel</th>
+                                            <th>Status</th>
+                                            <th>Amplitude (V)</th>
+                                            <th>Delay (s)</th>
+                                            <th>Width (s)</th>
+                                            <th>Active</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ddg_channels_table">
+                                        <tr>
+                                            <td><strong>A</strong></td>
+                                            <td><span class="badge bg-success ddg-status-toggle" id="ddg_chA_status" style="cursor: pointer;">enabled</span></td>
+                                            <td><input type="number" class="form-control form-control-sm" id="ddg_chA_amplitude" value="5.0" step="0.1"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chA_delay" value="0.00E+00"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chA_width" value="1.00E-02"></td>
+                                            <td><span class="badge bg-info ddg-active-toggle" id="ddg_chA_active" style="cursor: pointer;">high</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>B</strong></td>
+                                            <td><span class="badge bg-success ddg-status-toggle" id="ddg_chB_status" style="cursor: pointer;">enabled</span></td>
+                                            <td><input type="number" class="form-control form-control-sm" id="ddg_chB_amplitude" value="5.0" step="0.1"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chB_delay" value="0.00E+00"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chB_width" value="1.00E-02"></td>
+                                            <td><span class="badge bg-info ddg-active-toggle" id="ddg_chB_active" style="cursor: pointer;">high</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>C</strong></td>
+                                            <td><span class="badge bg-success ddg-status-toggle" id="ddg_chC_status" style="cursor: pointer;">enabled</span></td>
+                                            <td><input type="number" class="form-control form-control-sm" id="ddg_chC_amplitude" value="5.0" step="0.1"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chC_delay" value="0.00E+00"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chC_width" value="1.00E-02"></td>
+                                            <td><span class="badge bg-info ddg-active-toggle" id="ddg_chC_active" style="cursor: pointer;">high</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>D</strong></td>
+                                            <td><span class="badge bg-secondary ddg-status-toggle" id="ddg_chD_status" style="cursor: pointer;">disabled</span></td>
+                                            <td><input type="number" class="form-control form-control-sm" id="ddg_chD_amplitude" value="5.0" step="0.1"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chD_delay" value="0.00E+00"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chD_width" value="1.00E-02"></td>
+                                            <td><span class="badge bg-info ddg-active-toggle" id="ddg_chD_active" style="cursor: pointer;">high</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>E</strong></td>
+                                            <td><span class="badge bg-secondary ddg-status-toggle" id="ddg_chE_status" style="cursor: pointer;">disabled</span></td>
+                                            <td><input type="number" class="form-control form-control-sm" id="ddg_chE_amplitude" value="5.0" step="0.1"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chE_delay" value="0.00E+00"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chE_width" value="1.00E-02"></td>
+                                            <td><span class="badge bg-info ddg-active-toggle" id="ddg_chE_active" style="cursor: pointer;">high</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>F</strong></td>
+                                            <td><span class="badge bg-secondary ddg-status-toggle" id="ddg_chF_status" style="cursor: pointer;">disabled</span></td>
+                                            <td><input type="number" class="form-control form-control-sm" id="ddg_chF_amplitude" value="5.0" step="0.1"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chF_delay" value="0.00E+00"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chF_width" value="1.00E-02"></td>
+                                            <td><span class="badge bg-info ddg-active-toggle" id="ddg_chF_active" style="cursor: pointer;">high</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>G</strong></td>
+                                            <td><span class="badge bg-secondary ddg-status-toggle" id="ddg_chG_status" style="cursor: pointer;">disabled</span></td>
+                                            <td><input type="number" class="form-control form-control-sm" id="ddg_chG_amplitude" value="5.0" step="0.1"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chG_delay" value="0.00E+00"></td>
+                                            <td><input type="text" class="form-control form-control-sm" id="ddg_chG_width" value="1.00E-02"></td>
+                                            <td><span class="badge bg-info ddg-active-toggle" id="ddg_chG_active" style="cursor: pointer;">high</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Oscilloscope Tabs -->
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs" id="scopeTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="alerts-tab" data-bs-toggle="tab" data-bs-target="#alerts" type="button" role="tab">
+                            <i class="bi bi-bell"></i> Alerts <span id="alertBadge" class="badge bg-secondary ms-1">0</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="scope1-tab" data-bs-toggle="tab" data-bs-target="#scope1" type="button" role="tab">Scope 1</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="scope2-tab" data-bs-toggle="tab" data-bs-target="#scope2" type="button" role="tab">Scope 2</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="scope3-tab" data-bs-toggle="tab" data-bs-target="#scope3" type="button" role="tab">Scope 3</button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="scopeTabContent">
+                    <div class="tab-pane fade show active" id="alerts" role="tabpanel">
+                        <div class="mt-3">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">System Alerts & Activity Log</h5>
+                                    <button id="clearAlertsBtn" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i> Clear All
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div id="alertsContainer" class="alert-log" style="max-height: 600px; overflow-y: auto;">
+                                        <div class="text-muted text-center py-4">
+                                            <i class="bi bi-info-circle" style="font-size: 2rem;"></i>
+                                            <p class="mt-2">No alerts yet. Activity will appear here.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="scope1" role="tabpanel">
+                        {{ render_scope_interface(1) }}
+                    </div>
+                    <div class="tab-pane fade" id="scope2" role="tabpanel">
+                        {{ render_scope_interface(2) }}
+                    </div>
+                    <div class="tab-pane fade" id="scope3" role="tabpanel">
+                        {{ render_scope_interface(3) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast" role="alert">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastBody">
+                <!-- Toast message will be inserted here -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
